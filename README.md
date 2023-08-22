@@ -1,6 +1,7 @@
 # Adorn Zapatos
 
 The script is meant to run without arguments:
+
 `./adorn_zapatos.sh`
 
 For now the script has selective commands enabled for renaming, as this is still a WIP.
