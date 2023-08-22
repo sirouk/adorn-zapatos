@@ -140,7 +140,7 @@ for i in ${!repos_to_rename[@]}; do
     # Commit the changes with a message
     git commit -m "Renaming operations completed on $(date +'%Y-%m-%d %H:%M:%S')"
 
-    
+    git push
 done
 
 
@@ -169,6 +169,8 @@ for i in ${!packages_to_test[@]}; do
 
     # Commit the changes with a message
     git commit -m "Testing completed and necessary modifications done on $(date +'%Y-%m-%d %H:%M:%S')"
+
+    git push
 done
 
 
