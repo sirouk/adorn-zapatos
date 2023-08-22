@@ -91,6 +91,9 @@ for i in ${!repos_to_rename[@]}; do
     git clone https://github.com/$git_org/${repos_to_rename[$i]}
     cd $script_dirname/${repos_to_rename[$i]}
 
+    # preserve .git objects
+    mv $script_dirname/${repos_to_rename[$i]}/.git $script_dirname/${repos_to_rename[$i]}/.git.bak
+
     # work under a new branch
     git checkout -b adorn-zapatos
 
@@ -128,6 +131,11 @@ for i in ${!repos_to_rename[@]}; do
     # replace -diem@ with -aptos@
     #### find $script_dirname/${repos_to_rename[$i]}/ -type f $avoid_paths -exec sed -i 's/-diem@/-aptos@/g' {} \;
 
+
+    # Replace .git objects
+    mv $script_dirname/${repos_to_rename[$i]}/.git.bak $script_dirname/${repos_to_rename[$i]}/.git
+
+
     # Manage log
     sed -i "s#$script_dirname##g" $script_dirname/$log_file_prefix-renaming-${repos_to_rename[$i]}.log
     mv $script_dirname/$log_file_prefix-renaming-${repos_to_rename[$i]}.log $script_dirname/${repos_to_rename[$i]}/
@@ -140,7 +148,7 @@ for i in ${!repos_to_rename[@]}; do
     # Commit the changes with a message
     git commit -m "Renaming operations completed on $(date +'%Y-%m-%d %H:%M:%S')"
 
-    git push --set-upstream origin adorn-zapatos
+    #git push --set-upstream origin adorn-zapatos
 done
 
 
@@ -163,6 +171,10 @@ for i in ${!packages_to_test[@]}; do
     sed -i "s#$script_dirname##g" $script_dirname/$log_file_prefix-testing-${repos_to_rename[$i]}.log
     mv $script_dirname/$log_file_prefix-testing-${repos_to_rename[$i]}.log $script_dirname/${repos_to_rename[$i]}/
 
+    # Cleanup
+    cargo clean
+
+
     # Git Commit
     # Add all changed files to the staging area
     git add .
@@ -170,7 +182,7 @@ for i in ${!packages_to_test[@]}; do
     # Commit the changes with a message
     git commit -m "Testing completed and necessary modifications done on $(date +'%Y-%m-%d %H:%M:%S')"
 
-    git push --set-upstream origin adorn-zapatos
+    #git push --set-upstream origin adorn-zapatos
 done
 
 
